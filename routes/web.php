@@ -28,11 +28,12 @@ use Faker\Guesser\Name;
 |
 */
 
-Route::get('/inventory', [SearchProductController::class, 'index'])->name('search-product');
-Route::get('/inventory/getdata', [SearchProductController::class, 'getData'])->name('search-product.getdata');
-Route::get('/inventory/getdetail/{code}', [SearchProductController::class, 'getDetail'])->name('search-product.getdetail');
+
 
 Route::redirect('/', 'login');
+Route::get('/home', function () {
+    return redirect('/dashboard');
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // ->middleware('checkRoleUser:500,501')
@@ -50,23 +51,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/invlist/file3/{code}', [InvListController::class, 'viewPhoto3'])->name('invlist.photo3');
     });
 
-    // SalesOrders
-    Route::prefix('sales')->group(function () {
-        Route::get('/sales-order', [SalesOrderController::class, 'index'])->name('sales-order');
-        Route::get('/sales-order/getdata', [SalesOrderController::class, 'getData'])->name('sales-order.getdata');
-        Route::get('/sales-order/form', [SalesOrderController::class, 'form'])->name('sales-order.form');
-        Route::post('/sales-order/create', [SalesOrderController::class, 'create'])->name('sales-order.create');
-        Route::get('/sales-order/getcustomer/customerId', [SalesOrderController::class, 'getCustomer'])->name('create.getcustomer');
-        Route::get('/sales-order/getproduct', [SalesOrderController::class, 'getProduct'])->name('create.getproduct');
-        Route::get('/sales-order/getdetail/{salesId}', [SalesOrderController::class, 'getDetail'])->name('sales-order.getdetail');
-        Route::post('/sales-order/update/{salesId}', [SalesOrderController::class, 'updateSo'])->name('sales-order.updateso');
-        Route::get('/sales-order/print/{salesId}', [SalesOrderController::class, 'print'])->name('sales-order.print');
-
-        Route::get('/new-customer', [NewCustomerRequestController::class, 'index'])->name('new-customer');
-        Route::get('/new-customer/getdata', [NewCustomerRequestController::class, 'getData'])->name('new-customer.getdata');
-        Route::post('/new-customer/create', [NewCustomerRequestController::class, 'create'])->name('new-customer.create');
-    });
     
+
 
     // Route for the getting the data feed
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
@@ -75,9 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard/getdata', [DashboardController::class, 'getData'])->name('dashboard.sales');
     Route::get('/dashboard/analytics', [DashboardController::class, 'analytics'])->name('analytics');
     Route::get('/dashboard/fintech', [DashboardController::class, 'fintech'])->name('fintech');
-    Route::get('/ecommerce/customers', [CustomerController::class, 'index'])->name('customers');
-    Route::get('/ecommerce/orders', [OrderController::class, 'index'])->name('orders');
-    Route::get('/ecommerce/invoices', [InvoiceController::class, 'index'])->name('invoices');
+    
     Route::get('/ecommerce/shop', function () {
         return view('pages/ecommerce/shop');
     })->name('shop');
@@ -99,9 +83,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/ecommerce/pay', function () {
         return view('pages/ecommerce/pay');
     })->name('pay');
-    Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns');
-    Route::get('/community/users-tabs', [MemberController::class, 'indexTabs'])->name('users-tabs');
-    Route::get('/community/users-tiles', [MemberController::class, 'indexTiles'])->name('users-tiles');
     Route::get('/community/profile', function () {
         return view('pages/community/profile');
     })->name('profile');
@@ -123,9 +104,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/finance/cards', function () {
         return view('pages/finance/credit-cards');
     })->name('credit-cards');
-    Route::get('/finance/transactions', [TransactionController::class, 'index01'])->name('transactions');
-    Route::get('/finance/transaction-details', [TransactionController::class, 'index02'])->name('transaction-details');
-    Route::get('/job/job-listing', [JobController::class, 'index'])->name('job-listing');
+   
     Route::get('/job/job-post', function () {
         return view('pages/job/job-post');
     })->name('job-post');
